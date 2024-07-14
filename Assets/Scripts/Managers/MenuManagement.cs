@@ -44,4 +44,9 @@ public class MenuManagement : MonoBehaviour
 		foreach (TranslateChangeControls translate in FindObjectsOfType<TranslateChangeControls>()) translate.ChangeTranslation();
 #endif
     }
+    public void OpenDiscordLink()
+    {
+        Application.OpenURL("https://discord.com/invite/9fZdXA6c8n");
+    }
+
 }

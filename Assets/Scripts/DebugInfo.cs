@@ -7,7 +7,7 @@ public class DebugInfo : MonoBehaviour
 
     void Start()
     {
-        string text = $"Running On {Application.platform} Version: {Application.version}";
+        string text = $"Running On {Application.platform}, Version: {Application.version}";
         textC.text = text;
     }
 }
