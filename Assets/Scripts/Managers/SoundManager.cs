@@ -45,7 +45,7 @@ public class SoundManager : MonoBehaviour
 		float elapsedTime = a.pitch;
 		while (elapsedTime < pitch)
 		{
-			elapsedTime = (a.pitch = elapsedTime + 0.65f * Time.deltaTime);
+			elapsedTime = a.pitch = elapsedTime + 0.65f * Time.deltaTime;
 			yield return null;
 		}
 		a.pitch = pitch;

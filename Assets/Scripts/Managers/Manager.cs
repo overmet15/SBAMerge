@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using GameJolt.API;
 using TMPro;
 using UnityEngine;
@@ -26,7 +25,7 @@ public class Manager : MonoBehaviour
 	[SerializeField] private float speed;
 
 	[Header("Balls")]
-    public GameObject[] ballList;
+    	public GameObject[] ballList;
 	private bool ballCreatedThisFrame;
 	public bool ballDestroyedThisFrame;
 	public GameObject curBall;
@@ -35,9 +34,9 @@ public class Manager : MonoBehaviour
 	public bool canCreateNewBall;
 	[SerializeField]
 	private GameObject creationParticles;
-    [SerializeField] private ParticleSystem spawnParticles;
+    	[SerializeField] private ParticleSystem spawnParticles;
 
-    [SerializeField] private SpriteRenderer nextBallSRender;
+    	[SerializeField] private SpriteRenderer nextBallSRender;
 	[SerializeField] private Sprite[] nextBallSprites;
 
 	[Header("Score")]
@@ -59,8 +58,8 @@ public class Manager : MonoBehaviour
 		canCreateNewBall = true;
 		canPlay = true;
 		CreateNewBall();
-        StartCoroutine(UpdateActivity());
-    }
+        	StartCoroutine(UpdateActivity());
+    	}
 
 	private void LateUpdate()
 	{
@@ -93,7 +92,7 @@ public class Manager : MonoBehaviour
 	{
 		if (canPlay)
 		{
-			float axis = Input.GetAxis("Horizontal") / 2;
+			float axis = Input.GetAxis("Horizontal") / 4;
 			forKeyboard += axis / 15f;
 			forKeyboard = Mathf.Clamp(forKeyboard, leftLimit, rightLimit);
 			spawnPoint.transform.position = new Vector2(forKeyboard, 4f);
@@ -203,23 +202,12 @@ public class Manager : MonoBehaviour
 			StartCoroutine(WaitASecond());
 		}
 	}
-
-	public void RestartGame()
-	{
-		StartCoroutine(LoadingManager.instance.LoadScene());
-	}
-
-	public void CreateDebugBall(int lvl)
-	{
-		Instantiate(ballList[lvl]);
-	}
-
 	IEnumerator UpdateActivity()
 	{
 #if !UNITY_ANDROID
-		DiscordManager.UpdateActivity("Main Mode", $"score: {score}, Hi-Score: {SaveValues.instance.gameData.mainModeScore}");
+		DiscordManager.UpdateActivity($"score: {score}, $"Hi-Score: {SaveValues.instance.gameData.mainModeScore}");
 #endif
-		yield return new WaitForSeconds(15);
+        yield return new WaitForSeconds(15);
 		StartCoroutine(UpdateActivity());
 	}
 }

@@ -1,7 +1,7 @@
-using GameJolt.API;
 using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class SaveValues : MonoBehaviour // This script is such a mess right now, redo it soon
 {
@@ -9,7 +9,6 @@ public class SaveValues : MonoBehaviour // This script is such a mess right now,
 
 	public GameData gameData;
 	public OptionsData optionsData;
-    public Dictionary<string, bool> postSkinData = new();
 
     [SerializeField] private TMPro.TMP_FontAsset[] fontAssetsPreload;
 
@@ -31,11 +30,6 @@ public class SaveValues : MonoBehaviour // This script is such a mess right now,
         StartCoroutine(SaveEverySec());
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.F11)) ToggelFullscreen();
-    }
-
     public float ReturnSoundValue(bool IsMusic)
     {
         if (IsMusic)
@@ -51,28 +45,16 @@ public class SaveValues : MonoBehaviour // This script is such a mess right now,
         optionsData = SaveData.LoadOptionsJson();
 
         if (gameData.skinUnlockedValues != null)
-        foreach (var k in gameData.skinUnlockedValues)
-        {
-            postSkinData.Add(k.skinName, k.skinUnlocked);
-        }
         //SkinManager.Init();
         HandleTranslation(optionsData.language);
     }
-    public async void SaveGDataAsync()
+    public async Task SaveGDataAsync(bool showLoading = true)
     {
-        await SaveData.SaveGameDataAsync(gameData);
+        await SaveData.SaveGameDataAsync(gameData, showLoading);
     }
-
-	private GameData CreateDefaultValues()
-	{
-		GameData gameData = new()
-        {
-            bombBuffCount = 3,
-            shakeBuffCount = 3,
-            slowMoBuffCount = 3,
-            coinCount = 100
-        };
-		return gameData;
+    public async void SaveGData(bool showLoading = true)
+    {
+        await SaveData.SaveGameDataAsync(gameData, showLoading);
     }
 
     public void HandleTranslation(int id)
@@ -102,7 +84,7 @@ public class SaveValues : MonoBehaviour // This script is such a mess right now,
         optionsData.language = id;
     }
 
-    public void ToggelFullscreen()
+    public void ToggleFullscreen()
     {
 #if !UNITY_ANDROID
         if (!Screen.fullScreen)
@@ -123,6 +105,8 @@ public class SaveValues : MonoBehaviour // This script is such a mess right now,
     {
         yield return new WaitForSeconds(10);
         StartCoroutine(SaveEverySec());
+        gameData.inGameScore = Manager.instance.score;
         SaveData.SaveOptionsJson();
+        SaveGData(false);
     }
 }

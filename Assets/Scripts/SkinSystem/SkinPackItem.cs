@@ -1,28 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 using UnityEngine.EventSystems;
 
 public class SkinPackItem : MonoBehaviour, IPointerDownHandler
 {
-    public SkinPack skinPack;
-
     [SerializeField] private Translate nameTextTranslate;
     [SerializeField] private Translate descTextTranslate;
+    private PackSO mySO;
+    [SerializeField] private GameObject displayPrefab;
+    private GameObject hasDisplay;
 
-    private ShopManager shopManager;
-
-    void Start()
+    public void Init(PackSO so)
     {
-        shopManager = FindObjectOfType<ShopManager>();
-        nameTextTranslate.key = skinPack.skinpackNameKey;
-        descTextTranslate.key = skinPack.skinpackDescKey;
-        nameTextTranslate.ChangeTranslation();
-        descTextTranslate.ChangeTranslation();
+        nameTextTranslate.key = so.nameKey;
+        descTextTranslate.key = so.descKey;
+        mySO = so;
     }
+
     public void OnPointerDown(PointerEventData eventData)
     {
-        shopManager.CreateSkinListWindow(skinPack);
+        if (hasDisplay == null) hasDisplay = Instantiate(displayPrefab, ShopManager.instance.canvas.transform);
+        hasDisplay?.GetComponent<PackItemList>().Init(mySO);
+        Debug.Log("A");
+
     }
 }

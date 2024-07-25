@@ -32,6 +32,7 @@ public class Core : MonoBehaviour
     {
 #if !UNITY_ANDROID
         DiscordManager.Update();
+        if (Input.GetKeyDown(KeyCode.F11)) SaveValues.instance.ToggleFullscreen();
 #endif
         signedIn = GameJoltAPI.Instance.HasSignedInUser;
     }

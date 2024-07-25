@@ -9,8 +9,7 @@ public class BuffPanel : MonoBehaviour
     [SerializeField]
     private Slider cooldownSlider;
 
-    // Update is called once per frame
-    void OnEnable()
+    void Update()
     {
         freezeSlider.maxValue = BuffManager.instance.slowMoCooldownMax;
         cooldownSlider.maxValue = BuffManager.instance.cooldownMax;

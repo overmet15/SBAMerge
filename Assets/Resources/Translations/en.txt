@@ -51,3 +51,10 @@ PleaseFillAllFields=Please fill all fields.
 DoYouReallyWantToRestartGame=Do you really want to restart game?
 Yes=Yes
 No=No
+#
+# Pack stuff starts here...
+#
+TestName=Test Name
+TestDesc=Test Desc
+TestPackName=Test Pack Name
+TestPackDesc=Test Pack Desc

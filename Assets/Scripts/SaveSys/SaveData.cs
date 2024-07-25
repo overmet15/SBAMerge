@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ public static class SaveData
 
 	private static string debugSavePath = "/DEBUG_data.json";
 
-    private static int currentSaveFileVersion = 1;
+    private static readonly int currentSaveFileVersion = 2;
     public static void Init()
     {
 		path = Application.persistentDataPath + path;
@@ -23,22 +24,24 @@ public static class SaveData
 	}
 
 
-    public static async Task SaveGameDataAsync(GameData saveData)
+    public static async Task SaveGameDataAsync(GameData saveData, bool showLoading = true)
     {
-        Core.instance.ToggleLoadingIndicator(true);
+        Core.instance.ToggleLoadingIndicator(showLoading);
         try
         {
-            saveData.skinUnlockedValues.Clear();
-            foreach (var d in SaveValues.instance.postSkinData)
-            {
-                SkinUnlockedValue val = new() { skinName = d.Key, skinUnlocked = d.Value };
-                saveData.skinUnlockedValues.Add(val);
-            }
+            //saveData.skinUnlockedValues.Clear();
+            //foreach (var d in SaveValues.instance.postSkinData)
+            //{
+            //    SkinUnlockedValue val = new() { skinName = d.Key, skinUnlocked = d.Value };
+            //    saveData.skinUnlockedValues.Add(val);
+            //}
             string contents = JsonUtility.ToJson(saveData);
             await Task.Run(() => JsonEncryptHelper.SaveEncryptedJson(savePath, contents));
-#if UNITY_EDITOR
-            await Task.Run(() => File.WriteAllText(debugSavePath, contents));
-#endif
+            string[] a = Environment.GetCommandLineArgs();
+            if (a.Contains("-debug") || Application.isEditor)
+            {
+                await Task.Run(() => File.WriteAllText(debugSavePath, contents));
+            }
             Core.instance.ToggleLoadingIndicator(false);
         }
         catch (Exception ex)
@@ -104,6 +107,7 @@ public class GameData
     public int saveFileVersion;
 
 	public int mainModeScore;
+	public int inGameScore;
 	public int coinCount;
 	public int bombBuffCount, shakeBuffCount, slowMoBuffCount;
     public List<SkinUnlockedValue> skinUnlockedValues;

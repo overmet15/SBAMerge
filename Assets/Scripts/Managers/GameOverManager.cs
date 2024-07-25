@@ -8,7 +8,4 @@ public class GameOverManager : MonoBehaviour
         Manager.instance.canPlay = false;
         gmPanel.SetActive(true);
     }
-    public void GameOverWarning()
-    {
-    }
 }

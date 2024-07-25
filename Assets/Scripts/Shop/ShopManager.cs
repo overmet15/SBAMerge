@@ -1,19 +1,27 @@
+using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class ShopManager : MonoBehaviour
 {
-
+    public static ShopManager instance;
     public enum ShopPanels { buff, almanac, skinBuy}
     [SerializeField] private GameObject buffPanel;
     [SerializeField] private GameObject almanacPanel;
     [SerializeField] private GameObject skinBuyPanel;
+    public GameObject canvas;
 
     [SerializeField] private GameObject almanacSkinCreationPoint;
+    public List<PackSO> packs = new();
+    private void Awake()
+    {
+        instance = this;
+    }
     private void Start()
     {
-        foreach (SkinPack pack in SkinManager.skinPacks.Values)
+        foreach (PackSO pack in packs)
         {
-            CreateSkinItem(pack.skinpackPath, pack);
+            Instantiate(pack.inShopPrefab, almanacPanel.transform.GetChild(0)).GetComponent<SkinPackItem>().Init(pack);
         }
     }
     public void TogglePanels(ShopPanels panel)
@@ -39,7 +47,7 @@ public class ShopManager : MonoBehaviour
     }
     public void CreateBuffBuyingWindow(BuffManager.buffType type, int cost)
     {
-        if (SaveValues.instance.gameData.coinCount > cost-1)
+        if (SaveValues.instance.gameData.coinCount >= cost)
         {
             switch (type)
             {
@@ -57,21 +65,10 @@ public class ShopManager : MonoBehaviour
                     break;
             }
             SaveValues.instance.gameData.coinCount -= cost;
-            SaveValues.instance.SaveGDataAsync();
         }
         else
         {
             // showErrorMessage("ERR", "not enough money");
         }
-    }
-
-    public void CreateSkinItem(string packPath, SkinPack skinPack)
-    {
-        Instantiate(Resources.Load<GameObject>($"Skins/{packPath}/SkinPackItem"), almanacSkinCreationPoint.transform).GetComponent<SkinPackItem>().skinPack = skinPack;
-    }
-
-    public void CreateSkinListWindow(SkinPack skinPack)
-    {
-
     }
 }

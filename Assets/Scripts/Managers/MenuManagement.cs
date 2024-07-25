@@ -14,6 +14,11 @@ public class MenuManagement : MonoBehaviour
         SettingsWindowManager.inited = true;
 #if UNITY_ANDROID
         normalUI.SetActive(true);
+        fullscreenUI.SetActive(false);
+#endif
+#if !UNITY_ANDROID
+        normalUI.SetActive(!Screen.fullScreen);
+        fullscreenUI.SetActive(Screen.fullScreen);
 #endif
     }
 
@@ -26,7 +31,7 @@ public class MenuManagement : MonoBehaviour
     }
     public void ToggleFullscreen()
 	{
-		SaveValues.instance.ToggelFullscreen();
+		SaveValues.instance.ToggleFullscreen();
 	}
 	public void ShowLeaderboard() { Core.instance.ShowLeaderboard(); }
 	public void ShowAchivements() { Core.instance.ShowTrophies();}

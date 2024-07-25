@@ -10,10 +10,22 @@ public class LoadingManager : MonoBehaviour
 	[SerializeField]
 	private Animator animator;
 
-	private void Awake()
+	void Awake()
 	{
 		instance = this;
 	}
+	
+	void Start()
+    {
+		if (SaveValues.instance.gameData.inGameScore != 0)
+		{
+			if (SaveValues.instance.gameData.inGameScore > SaveValues.instance.gameData.mainModeScore) SaveValues.instance.gameData.mainModeScore = SaveValues.instance.gameData.inGameScore;
+			int ass = Mathf.RoundToInt(SaveValues.instance.gameData.inGameScore / 10);
+			SaveValues.instance.gameData.coinCount += ass;
+			SaveValues.instance.SaveGData();
+		}
+		else Debug.Log("nah");
+    }
 
 	public IEnumerator LoadScene(int sceneId = 1)
 	{
@@ -32,7 +44,8 @@ public class LoadingManager : MonoBehaviour
         }
         int ass = Mathf.RoundToInt(Manager.instance.score / 10);
 		SaveValues.instance.gameData.coinCount += ass;
-        await SaveData.SaveGameDataAsync(SaveValues.instance.gameData);
+		SaveValues.instance.gameData.inGameScore = 0;
+        await SaveValues.instance.SaveGDataAsync();
         StartCoroutine(LoadScene());
 	}
 }
