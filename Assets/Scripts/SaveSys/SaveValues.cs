@@ -74,12 +74,12 @@ public class SaveValues : MonoBehaviour // This script is such a mess right now,
         }
         TranslationManager.font = fontAssetsPreload[id];
         TranslationManager.LoadTranslations("Translations/" + text);
-        foreach (Translate translate in FindObjectsOfType<Translate>())
+        foreach (Translate translate in FindObjectsByType<Translate>(FindObjectsSortMode.None))
         {
             translate.ChangeTranslation();
         }
 #if !UNITY_ANDROID
-		foreach (TranslateChangeControls translate in FindObjectsOfType<TranslateChangeControls>()) translate.ChangeTranslation();
+		foreach (TranslateChangeControls translate in FindObjectsByType<TranslateChangeControls>(FindObjectsSortMode.None)) translate.ChangeTranslation();
 #endif
         optionsData.language = id;
     }

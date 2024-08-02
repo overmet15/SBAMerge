@@ -46,7 +46,7 @@ public class MenuManagement : MonoBehaviour
 		{
             SaveValues.instance.optionsData.keyboardControls = true;
 		}
-		foreach (TranslateChangeControls translate in FindObjectsOfType<TranslateChangeControls>()) translate.ChangeTranslation();
+		foreach (TranslateChangeControls translate in FindObjectsByType<TranslateChangeControls>(FindObjectsSortMode.None)) translate.ChangeTranslation();
 #endif
     }
     public void OpenDiscordLink()

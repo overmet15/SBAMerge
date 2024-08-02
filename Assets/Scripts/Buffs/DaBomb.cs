@@ -46,7 +46,7 @@ public class DaBomb : MonoBehaviour, IBall
 		Instantiate(particlesPrefab).transform.position = transform.position;
 		Manager.instance.canCreateNewBall = true;
         Manager.instance.CreateNewBall(false);
-		foreach (Shake s in FindObjectsOfType<Shake>()) s.GoShake(true);
+		foreach (Shake s in FindObjectsByType<Shake>(FindObjectsSortMode.None)) s.GoShake(true);
 		Destroy(gameObject);
 	}
 
@@ -66,7 +66,7 @@ public class DaBomb : MonoBehaviour, IBall
 
 	public void DestroyWithoutBoom()
 	{
-		FindObjectOfType<Manager>().canCreateNewBall = true;
+		Manager.instance.canCreateNewBall = true;
 		Destroy(gameObject);
 	}
 

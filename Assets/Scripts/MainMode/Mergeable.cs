@@ -24,7 +24,7 @@ public class Mergeable : MonoBehaviour, IBall
 
     private void LateUpdate()
     {
-        rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -15, 15));
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, Mathf.Clamp(rb.linearVelocity.y, -15, 15));
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

@@ -23,6 +23,5 @@ public class SkinPackItem : MonoBehaviour, IPointerDownHandler
         if (hasDisplay == null) hasDisplay = Instantiate(displayPrefab, ShopManager.instance.canvas.transform);
         hasDisplay?.GetComponent<PackItemList>().Init(mySO);
         Debug.Log("A");
-
     }
 }

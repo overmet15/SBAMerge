@@ -205,7 +205,7 @@ public class Manager : MonoBehaviour
 	IEnumerator UpdateActivity()
 	{
 #if !UNITY_ANDROID
-		DiscordManager.UpdateActivity($"score: {score}, $"Hi-Score: {SaveValues.instance.gameData.mainModeScore}");
+		DiscordManager.UpdateActivity($"score: {score}", $"Hi-Score: {SaveValues.instance.gameData.mainModeScore}");
 #endif
         yield return new WaitForSeconds(15);
 		StartCoroutine(UpdateActivity());

@@ -144,7 +144,7 @@ public class BuffManager : MonoBehaviour
 		{
 			if (SaveValues.instance.gameData.shakeBuffCount != 0)
 			{
-                foreach (Shake s in FindObjectsOfType<Shake>()) s.GoShake(false);
+                foreach (Shake s in FindObjectsByType<Shake>(FindObjectsSortMode.None)) s.GoShake(false);
                 SaveValues.instance.gameData.shakeBuffCount--;
 				StartCooldownButVoidForRealLolIDunnoWhatToTypeHere();
 			}
