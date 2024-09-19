@@ -22,6 +22,6 @@ public class ScoreCounter : MonoBehaviour
         {
             hiScoreText.text = t1.output + ": " + SaveValues.instance.gameData.mainModeScore;
         }
-        scoreText.text = t0.output + ": \n" + Manager.instance.score;
+        scoreText.text = t0.output + ": \n" + Manager.Instance.score;
     }
 }

@@ -2,6 +2,8 @@ using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
+using TMPro;
 
 public class SaveValues : MonoBehaviour // This script is such a mess right now, redo it soon
 {
@@ -11,6 +13,7 @@ public class SaveValues : MonoBehaviour // This script is such a mess right now,
 	public OptionsData optionsData;
 
     [SerializeField] private TMPro.TMP_FontAsset[] fontAssetsPreload;
+    public Dictionary<string, string> translations = new();
 
     private Vector2Int rememberedResolution;
     private void Awake()
@@ -19,6 +22,7 @@ public class SaveValues : MonoBehaviour // This script is such a mess right now,
 		{
 			instance = this;
 			SaveData.Init();
+            Application.logMessageReceived += SaveData.LogMessage;
             Load();
         }
 		else Destroy(this);
@@ -32,10 +36,7 @@ public class SaveValues : MonoBehaviour // This script is such a mess right now,
 
     public float ReturnSoundValue(bool IsMusic)
     {
-        if (IsMusic)
-        {
-            return optionsData.musicVolume / 100f;
-        }
+        if (IsMusic) return optionsData.musicVolume / 100f;
         return optionsData.sfxVolume / 100f;
     }
     void Load()
@@ -44,9 +45,9 @@ public class SaveValues : MonoBehaviour // This script is such a mess right now,
 
         optionsData = SaveData.LoadOptionsJson();
 
-        if (gameData.skinUnlockedValues != null)
+        //if (gameData.skinUnlockedValues != null)
         //SkinManager.Init();
-        HandleTranslation(optionsData.language);
+        HandleTranslations();
     }
     public async Task SaveGDataAsync(bool showLoading = true)
     {
@@ -57,23 +58,18 @@ public class SaveValues : MonoBehaviour // This script is such a mess right now,
         await SaveData.SaveGameDataAsync(gameData, showLoading);
     }
 
-    public void HandleTranslation(int id)
+    public void HandleTranslations()
     {
-        string text = string.Empty;
-        switch (id)
+        TextAsset[] translations = Resources.LoadAll<TextAsset>("Translations");
+        TranslationManager.font = fontAssetsPreload[0]; // -- en, ru, fr
+        foreach (TextAsset translation in translations)
         {
-            case 0:
-                text = "en";
-                break;
-            case 1:
-                text = "ru";
-                break;
-            case 2:
-                text = "fr";
-                break;
+            this.translations.Add(translation.name, translation.text);
         }
-        TranslationManager.font = fontAssetsPreload[id];
-        TranslationManager.LoadTranslations("Translations/" + text);
+
+        if (this.translations.ContainsKey(optionsData.language)) TranslationManager.LoadTranslations(this.translations[optionsData.language]);
+        else TranslationManager.LoadTranslations(this.translations["English"]);
+
         foreach (Translate translate in FindObjectsByType<Translate>(FindObjectsSortMode.None))
         {
             translate.ChangeTranslation();
@@ -81,9 +77,29 @@ public class SaveValues : MonoBehaviour // This script is such a mess right now,
 #if !UNITY_ANDROID
 		foreach (TranslateChangeControls translate in FindObjectsByType<TranslateChangeControls>(FindObjectsSortMode.None)) translate.ChangeTranslation();
 #endif
-        optionsData.language = id;
+        //optionsData.language = id;
     }
 
+    public void SetLanguage(string language)
+    {
+        optionsData.language = language; 
+        TranslationManager.LoadTranslations(this.translations[language]);
+        TranslationManager.font = GetFontForLanguage(language);
+        foreach (Translate translate in FindObjectsByType<Translate>(FindObjectsSortMode.None))
+            translate.ChangeTranslation();
+    }
+
+    public TMP_FontAsset GetFontForLanguage(string language)
+    {
+        return language switch
+        {
+            "English" => fontAssetsPreload[0],
+            "Russian" => fontAssetsPreload[1],
+            "French" => fontAssetsPreload[0],
+            "German" => fontAssetsPreload[0],
+            _ => fontAssetsPreload[0],
+        };
+    }
     public void ToggleFullscreen()
     {
 #if !UNITY_ANDROID
@@ -105,7 +121,7 @@ public class SaveValues : MonoBehaviour // This script is such a mess right now,
     {
         yield return new WaitForSeconds(10);
         StartCoroutine(SaveEverySec());
-        gameData.inGameScore = Manager.instance.score;
+        gameData.inGameScore = Manager.Instance.score;
         SaveData.SaveOptionsJson();
         SaveGData(false);
     }

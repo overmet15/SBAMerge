@@ -24,7 +24,7 @@ public class LoadingManager : MonoBehaviour
 			SaveValues.instance.gameData.coinCount += ass;
 			SaveValues.instance.SaveGData();
 		}
-		else Debug.Log("nah");
+		//else Debug.Log("nah");
     }
 
 	public IEnumerator LoadScene(int sceneId = 1)
@@ -37,12 +37,16 @@ public class LoadingManager : MonoBehaviour
 
 	public async void RestartAsync()
     {
-        if (Manager.instance.score > SaveValues.instance.gameData.mainModeScore)
+        if (Manager.Instance.score > SaveValues.instance.gameData.mainModeScore)
         {
-            SaveValues.instance.gameData.mainModeScore = Manager.instance.score;
-			if (Core.instance.signedIn) Scores.Add(Manager.instance.score, Manager.instance.score.ToString(), 886999, "");
+            SaveValues.instance.gameData.mainModeScore = Manager.Instance.score;
+			if (Core.instance.signedIn) Scores.Add(Manager.Instance.score, Manager.Instance.score.ToString(), 886999, "");
         }
-        int ass = Mathf.RoundToInt(Manager.instance.score / 10);
+		if (Manager.Instance.ballsMerged > SaveValues.instance.gameData.MostMergedBalls)
+		{
+			SaveValues.instance.gameData.MostMergedBalls = Manager.Instance.ballsMerged;
+        }
+        int ass = Mathf.RoundToInt(Manager.Instance.score / 10);
 		SaveValues.instance.gameData.coinCount += ass;
 		SaveValues.instance.gameData.inGameScore = 0;
         await SaveValues.instance.SaveGDataAsync();

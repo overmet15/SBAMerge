@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-
+#if Development
 public class SkinPackItem : MonoBehaviour, IPointerDownHandler
 {
     [SerializeField] private Translate nameTextTranslate;
@@ -25,3 +25,4 @@ public class SkinPackItem : MonoBehaviour, IPointerDownHandler
         Debug.Log("A");
     }
 }
+#endif

@@ -1,4 +1,5 @@
-test=Test
+LanguageName=French
+#test=Test
 MusicVolume=Volume de la musique 
 SoundVolume=Volume des effets sonores 
 AboutUs=A Propos de Nous 

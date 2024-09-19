@@ -19,10 +19,12 @@ public class ShopManager : MonoBehaviour
     }
     private void Start()
     {
+#if Development
         foreach (PackSO pack in packs)
         {
             Instantiate(pack.inShopPrefab, almanacPanel.transform.GetChild(0)).GetComponent<SkinPackItem>().Init(pack);
         }
+#endif
     }
     public void TogglePanels(ShopPanels panel)
     {

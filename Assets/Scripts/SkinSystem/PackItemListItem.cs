@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
-
+#if Development
 public class PackItemListItem : MonoBehaviour
 {
     public PackItemSO mySO;
@@ -14,3 +14,4 @@ public class PackItemListItem : MonoBehaviour
         front.sprite = so.sprite;
     }
 }
+#endif

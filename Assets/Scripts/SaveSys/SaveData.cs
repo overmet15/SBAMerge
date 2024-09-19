@@ -21,6 +21,13 @@ public static class SaveData
 		path = Application.persistentDataPath + path;
 		savePath = Application.persistentDataPath + savePath;
         debugSavePath = Application.persistentDataPath + debugSavePath;
+        if (File.Exists(Application.persistentDataPath + "/console.log"))
+        {
+            FileInfo fileInfo = new(Application.persistentDataPath + "/console.log");
+            long fileSizeInBytes = fileInfo.Length;
+            long fileSizeInMB = fileSizeInBytes / (1024 * 1024);
+            if (fileSizeInMB > 8) { File.Delete(Application.persistentDataPath + "/console.log"); }
+        }
 	}
 
 
@@ -51,6 +58,20 @@ public static class SaveData
         }
     }
 
+    public static void LogMessage(string logString, string stackTrace, LogType type)
+    {
+        string logEntry = "{0}\n{1}\n{2}\n{3}\n{0}\n\n"; // Type, Time, Log, stackTrace
+        string s0 = "";
+
+        if (type == LogType.Error) s0 = "! ! ! ! !";
+        else if (type == LogType.Log) s0 = "= = = = =";
+        else if (type == LogType.Warning) s0 = "? ? ? ? ?";
+        else if (type == LogType.Exception) s0 = "!? !? !? !? !?";
+
+        logEntry = string.Format(logEntry, s0, DateTime.Now.ToString(), logString, stackTrace);
+
+        File.AppendAllText(Application.persistentDataPath + "/console.log", logEntry);
+    }
 
     public static GameData LoadGameData()
 	{
@@ -92,12 +113,12 @@ public static class SaveData
             return optionsData;
         }
 	}
-    private static int CheckSystemLanguage()
+    private static string CheckSystemLanguage()
     {
-        if (Application.systemLanguage == SystemLanguage.English) return 0;
-        else if (Application.systemLanguage == SystemLanguage.Russian) return 1;
-        else if (Application.systemLanguage == SystemLanguage.French) return 2;
-        else return 0;
+        if (Application.systemLanguage == SystemLanguage.English) return "English";
+        else if (Application.systemLanguage == SystemLanguage.Russian) return "Russian";
+        else if (Application.systemLanguage == SystemLanguage.French) return "French";
+        else return "English";
     }
 }
 
@@ -110,18 +131,21 @@ public class GameData
 	public int inGameScore;
 	public int coinCount;
 	public int bombBuffCount, shakeBuffCount, slowMoBuffCount;
+    public int MostMergedBalls;
+    #if Development
     public List<SkinUnlockedValue> skinUnlockedValues;
+#endif
 }
 
 [System.Serializable]
 public class OptionsData
 {
 	public float musicVolume, sfxVolume;
-	public int language;
+	public string language;
 	public bool keyboardControls;
     public bool loadingIndicatorNeeded;
 }
-
+#if Development
 
 [System.Serializable]
 public class SkinUnlockedValue
@@ -129,7 +153,7 @@ public class SkinUnlockedValue
     public string skinName;
     public bool skinUnlocked;
 }
-
+#endif
 public static class JsonEncryptHelper
 {
     private static readonly byte[] key = Encoding.UTF8.GetBytes("totalysecuredbyteeversogetrealha");

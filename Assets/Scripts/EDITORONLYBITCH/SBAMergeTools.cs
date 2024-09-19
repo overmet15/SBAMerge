@@ -13,7 +13,7 @@ public class SBAMergeTools : EditorWindow
         if (Application.isPlaying)
         {
             GUILayout.Label("Stats:");
-            GUILayout.Label($"Balls on scene: {Manager.instance.allBalls.Count}");
+            GUILayout.Label($"Balls on scene: {Manager.Instance.allBalls.Count}");
             GUILayout.Label($"Game Version: {Application.version}");
 
             GUILayout.Space(5);

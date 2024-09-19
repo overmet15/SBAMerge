@@ -5,14 +5,12 @@ using UnityEngine;
 
 public class TranslationSwitcher : MonoBehaviour
 {
-    [SerializeField]
-    private int id;
-    [SerializeField]
-    private TMP_FontAsset font;
+    public TextMeshProUGUI myTMPro;
+    public string myTranslation;
 
     public void SwitchTranslation()
     {
-        TranslationManager.font = font;
-        SaveValues.instance.HandleTranslation(id);
+        SaveValues.instance.SetLanguage(myTranslation);
+        Manager.Instance.closeTranslationPanel.OnClick();
     }
 }

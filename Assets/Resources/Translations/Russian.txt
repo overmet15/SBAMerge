@@ -1,3 +1,5 @@
+LanguageName=Русский
+#
 test=Test String
 MusicVolume=Громкость Музыки
 SoundVolume=Громкость Звуков

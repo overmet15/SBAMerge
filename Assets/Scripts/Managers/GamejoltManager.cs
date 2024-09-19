@@ -15,10 +15,10 @@ public class GamejoltManager : MonoBehaviour
     }
     private void Update()
     {
-        if (Manager.instance.score >= 100 && !points1) { Core.instance.UnlockAchivement(232898); points1 = true; }
-        if (Manager.instance.score >= 1000 && !points2) { Core.instance.UnlockAchivement(232899); points2 = true; }
-        if (Manager.instance.score >= 10000 && !points3) { Core.instance.UnlockAchivement(232900); points3 = true; }
-        if (Manager.instance.score >= 100000 && !points4) { Core.instance.UnlockAchivement(232901); points4 = true; }
+        if (Manager.Instance.score >= 100 && !points1) { Core.instance.UnlockAchivement(232898); points1 = true; }
+        if (Manager.Instance.score >= 1000 && !points2) { Core.instance.UnlockAchivement(232899); points2 = true; }
+        if (Manager.Instance.score >= 10000 && !points3) { Core.instance.UnlockAchivement(232900); points3 = true; }
+        if (Manager.Instance.score >= 100000 && !points4) { Core.instance.UnlockAchivement(232901); points4 = true; }
     }
     public void ResetAchivementCounters()
     {

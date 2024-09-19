@@ -32,10 +32,10 @@ public class Mergeable : MonoBehaviour, IBall
         if (!collidersInContact.Contains(collision.collider))
         {
             collidersInContact.Add(collision.collider);
-            if (canMerge && collision.gameObject.TryGetComponent<Mergeable>(out var component) && component.level == level && !Manager.instance.ballDestroyedThisFrame)
+            if (canMerge && collision.gameObject.TryGetComponent<Mergeable>(out var component) && component.level == level && !Manager.Instance.ballDestroyedThisFrame)
             {
                 Vector2 pos = Vector3.Lerp(transform.position, collision.transform.position, 0.5f);
-                Manager.instance.CreateNewBallOnCollision(pos, level, gameObject, collision.gameObject);
+                Manager.Instance.CreateNewBallOnCollision(pos, level, gameObject, collision.gameObject);
             }
         }
     }
@@ -47,7 +47,7 @@ public class Mergeable : MonoBehaviour, IBall
 
     public void Destball()
     {
-        if (Manager.instance.allBalls.Contains(gameObject)) Manager.instance.allBalls.Remove(gameObject);
+        if (Manager.Instance.allBalls.Contains(gameObject)) Manager.Instance.allBalls.Remove(gameObject);
         Destroy(gameObject);
     }
 
@@ -55,14 +55,14 @@ public class Mergeable : MonoBehaviour, IBall
     {
         GetComponent<Collider2D>().enabled = true;
         GetComponent<Rigidbody2D>().simulated = true;
-        transform.SetParent(Manager.instance.ballParent);
-        Manager.instance.allBalls.Add(gameObject);
+        transform.SetParent(Manager.Instance.ballParent);
+        Manager.Instance.allBalls.Add(gameObject);
     }
 
     public void OnCreate()
     {
-        transform.SetParent(Manager.instance.spawnPoint.transform);
-        transform.position = Manager.instance.spawnPoint.transform.position;
+        transform.SetParent(Manager.Instance.spawnPoint.transform);
+        transform.position = Manager.Instance.spawnPoint.transform.position;
         GetComponent<Collider2D>().enabled = false;
         GetComponent<Rigidbody2D>().simulated = false;
     }
@@ -70,9 +70,10 @@ public class Mergeable : MonoBehaviour, IBall
     public void OnCollisionCreate()
     {
         GetComponent<Rigidbody2D>().AddForce(Vector2.up * 2f, ForceMode2D.Impulse);
-        transform.SetParent(Manager.instance.ballParent);
+        transform.SetParent(Manager.Instance.ballParent);
         if (row > 4) GamejoltManager.instance.UnlockRowAchivement();
-        Manager.instance.allBalls.Add(gameObject);
+        Manager.Instance.allBalls.Add(gameObject);
+        Manager.Instance.ballsMerged++;
         StartCoroutine(DisableRow());
     }
 

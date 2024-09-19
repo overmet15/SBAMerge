@@ -26,7 +26,7 @@ public class DaBomb : MonoBehaviour, IBall
 
 	private void Start()
 	{
-		Manager.instance.canCreateNewBall = false;
+		Manager.Instance.canCreateNewBall = false;
 	}
 
 	private void Explode()
@@ -44,9 +44,9 @@ public class DaBomb : MonoBehaviour, IBall
 		foreach (Collider2D collider2D2 in destroyCols) collider2D2.GetComponent<Mergeable>().Destball();
 
 		Instantiate(particlesPrefab).transform.position = transform.position;
-		Manager.instance.canCreateNewBall = true;
-        Manager.instance.CreateNewBall(false);
-		foreach (Shake s in FindObjectsByType<Shake>(FindObjectsSortMode.None)) s.GoShake(true);
+		Manager.Instance.canCreateNewBall = true;
+        Manager.Instance.CreateNewBall(false);
+		Camera.main.GetComponent<Shake>().GoShake(true);
 		Destroy(gameObject);
 	}
 
@@ -66,14 +66,14 @@ public class DaBomb : MonoBehaviour, IBall
 
 	public void DestroyWithoutBoom()
 	{
-		Manager.instance.canCreateNewBall = true;
+		Manager.Instance.canCreateNewBall = true;
 		Destroy(gameObject);
 	}
 
 	public void OnCreate()
 	{
-		transform.SetParent(Manager.instance.spawnPoint.transform);
-		transform.position = Manager.instance.spawnPoint.transform.position;
+		transform.SetParent(Manager.Instance.spawnPoint.transform);
+		transform.position = Manager.Instance.spawnPoint.transform.position;
 		GetComponent<CircleCollider2D>().enabled = false;
 		GetComponent<Rigidbody2D>().simulated = false;
 	}

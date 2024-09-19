@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+#if Development
 public class PackItemList : MonoBehaviour
 {
     public GameObject itemListObject;
@@ -16,3 +16,4 @@ public class PackItemList : MonoBehaviour
         }
     }
 }
+#endif

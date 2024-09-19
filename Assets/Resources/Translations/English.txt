@@ -1,3 +1,5 @@
+LanguageName=English
+#
 test=Test String
 MusicVolume=Music Volume
 SoundVolume=Sound Volume

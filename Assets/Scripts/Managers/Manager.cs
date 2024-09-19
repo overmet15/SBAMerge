@@ -11,21 +11,20 @@ public interface IBall
 }
 public class Manager : MonoBehaviour
 {
-	public static Manager instance;
+	public static Manager Instance;
 	public Transform ballParent;
 
 	[Header("Spawn Point Stuff")]
 	public GameObject spawnPoint;
 
-	private float leftLimit;
-	private float rightLimit;
+	private float leftLimit, rightLimit;
 	private Vector2 targetPosition;
 	[SerializeField] private float[] leftBallBorderLimits;
 	[SerializeField] private float[] rightBallBorderLimits;
 	[SerializeField] private float speed;
 
 	[Header("Balls")]
-    	public GameObject[] ballList;
+    public GameObject[] ballList;
 	private bool ballCreatedThisFrame;
 	public bool ballDestroyedThisFrame;
 	public GameObject curBall;
@@ -34,9 +33,9 @@ public class Manager : MonoBehaviour
 	public bool canCreateNewBall;
 	[SerializeField]
 	private GameObject creationParticles;
-    	[SerializeField] private ParticleSystem spawnParticles;
+    [SerializeField] private ParticleSystem spawnParticles;
 
-    	[SerializeField] private SpriteRenderer nextBallSRender;
+    [SerializeField] private SpriteRenderer nextBallSRender;
 	[SerializeField] private Sprite[] nextBallSprites;
 
 	[Header("Score")]
@@ -47,9 +46,15 @@ public class Manager : MonoBehaviour
 	public bool canPlay;
 	private int nextBallLv = 0;
 	private float forKeyboard;
+	public int ballsMerged;
+	private bool ballNeedToFall;
+
+	[SerializeField] private GameObject languageChangePrefab;
+	[SerializeField] private Transform languageSpace;
+	public ChangePanelOnClick closeTranslationPanel;
 	private void Awake()
 	{
-		instance = this;
+		Instance = this;
 	}
 
 	private void Start()
@@ -58,8 +63,19 @@ public class Manager : MonoBehaviour
 		canCreateNewBall = true;
 		canPlay = true;
 		CreateNewBall();
-        	StartCoroutine(UpdateActivity());
-    	}
+        StartCoroutine(UpdateActivity());
+        targetPosition.y = 4f;
+
+		//Init translations here
+		foreach (var v in SaveValues.instance.translations)
+		{
+			TranslationSwitcher sw = Instantiate(languageChangePrefab, languageSpace).GetComponent<TranslationSwitcher>();
+
+			sw.myTranslation = v.Key;
+            //sw.myTMPro.font = SaveValues.instance.GetFontForLanguage(v.Value);
+            sw.myTMPro.text = TranslationManager.TranslateFromFile(v.Value, "LanguageName");
+        }
+    }
 
 	private void LateUpdate()
 	{
@@ -69,14 +85,8 @@ public class Manager : MonoBehaviour
 
 	private void Update()
 	{
-		if (!SaveValues.instance.optionsData.keyboardControls)
-		{
-			HandleInputMouse();
-		}
-		else
-		{
-			HandleInputKeyboard();
-		}
+        if (!SaveValues.instance.optionsData.keyboardControls) HandleInputMouse();
+		else HandleInputKeyboard();
 	}
 
 	private void HandleInputMouse()
@@ -84,9 +94,12 @@ public class Manager : MonoBehaviour
 		if (down && canPlay)
 		{
 			targetPosition = new Vector2(Mathf.Clamp(Camera.main.ScreenPointToRay(Input.mousePosition).origin.x, leftLimit, rightLimit), 4f);
-			spawnPoint.transform.position = Vector2.Lerp(spawnPoint.transform.position, targetPosition, speed * Time.deltaTime);
-		}
-	}
+        }
+		//spawnPoint.transform.position = Vector2.Lerp(spawnPoint.transform.position, targetPosition, speed * Time.deltaTime);
+		Vector2 vel = new();
+		spawnPoint.transform.position = Vector2.SmoothDamp(spawnPoint.transform.position, targetPosition, ref vel, 0.025f);
+		if (ballNeedToFall && vel.x < 0.05f) { OutBall(); ballNeedToFall = false; }
+    }
 
 	private void HandleInputKeyboard()
 	{
@@ -96,10 +109,7 @@ public class Manager : MonoBehaviour
 			forKeyboard += axis / 15f;
 			forKeyboard = Mathf.Clamp(forKeyboard, leftLimit, rightLimit);
 			spawnPoint.transform.position = new Vector2(forKeyboard, 4f);
-			if (Input.GetKeyDown(KeyCode.Space))
-			{
-				MouseUp();
-			}
+			if (Input.GetKeyDown(KeyCode.Space)) MouseUp();
 		}
 	}
 
@@ -178,19 +188,19 @@ public class Manager : MonoBehaviour
 	public void MouseUp()
 	{
 		if (!SaveValues.instance.optionsData.keyboardControls) down = false;
-		if (hasCreated && canPlay) OutBall();
+		if (hasCreated && canPlay && !ballNeedToFall) ballNeedToFall = true;
 	}
 
 	private void OutBall()
 	{
-		StartCoroutine(WaitASecond());
-		curBall.TryGetComponent<IBall>(out var component);
+		StartCoroutine(CreateNewBallEnum());
+		curBall.TryGetComponent(out IBall component);
 		component.OnOut();
 		hasCreated = false;
 		curBall = null;
 	}
 
-	private IEnumerator WaitASecond()
+	private IEnumerator CreateNewBallEnum()
 	{
 		yield return new WaitForSecondsRealtime(0.5f);
 		if (!hasCreated)
@@ -199,13 +209,13 @@ public class Manager : MonoBehaviour
 		}
 		else
 		{
-			StartCoroutine(WaitASecond());
+			StartCoroutine(CreateNewBallEnum());
 		}
 	}
 	IEnumerator UpdateActivity()
 	{
 #if !UNITY_ANDROID
-		DiscordManager.UpdateActivity($"score: {score}", $"Hi-Score: {SaveValues.instance.gameData.mainModeScore}");
+		DiscordManager.UpdateActivity($"Score: {score}", $"Hi-Score: {SaveValues.instance.gameData.mainModeScore}");
 #endif
         yield return new WaitForSeconds(15);
 		StartCoroutine(UpdateActivity());

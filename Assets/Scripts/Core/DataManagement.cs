@@ -17,7 +17,7 @@ public class DataManagement : MonoBehaviour
     {
         ToggleWindow();
         Core.instance.ToggleLoadingIndicator(true);
-        Manager.instance.canPlay = false;
+        Manager.Instance.canPlay = false;
         DataStore.Get("bombBuffCount", false, value => {
             SaveValues.instance.gameData.bombBuffCount = int.Parse(value);
             DataStore.Get("shakeBuffCount", false, value => {
