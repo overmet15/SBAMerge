@@ -28,6 +28,7 @@ public class ShopManager : MonoBehaviour
     }
     public void TogglePanels(ShopPanels panel)
     {
+#if Development
         if (panel == ShopPanels.buff)
         {
             buffPanel.SetActive(true);
@@ -46,6 +47,7 @@ public class ShopManager : MonoBehaviour
             almanacPanel.SetActive(false);
             skinBuyPanel.SetActive(true);
         }
+#endif
     }
     public void CreateBuffBuyingWindow(BuffManager.buffType type, int cost)
     {
@@ -67,6 +69,7 @@ public class ShopManager : MonoBehaviour
                     break;
             }
             SaveValues.instance.gameData.coinCount -= cost;
+            SoundManager.instance.PurchaseSound();
         }
         else
         {

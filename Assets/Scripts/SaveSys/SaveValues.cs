@@ -34,6 +34,12 @@ public class SaveValues : MonoBehaviour // This script is such a mess right now,
         StartCoroutine(SaveEverySec());
     }
 
+    void Update()
+    {
+        if (optionsData.FPS < 15) optionsData.FPS = 15;
+
+        Application.targetFrameRate = optionsData.FPS;
+    }
     public float ReturnSoundValue(bool IsMusic)
     {
         if (IsMusic) return optionsData.musicVolume / 100f;
@@ -61,13 +67,17 @@ public class SaveValues : MonoBehaviour // This script is such a mess right now,
     public void HandleTranslations()
     {
         TextAsset[] translations = Resources.LoadAll<TextAsset>("Translations");
-        TranslationManager.font = fontAssetsPreload[0]; // -- en, ru, fr
+        TranslationManager.font = fontAssetsPreload[0]; // -- en, ru, other
         foreach (TextAsset translation in translations)
         {
             this.translations.Add(translation.name, translation.text);
         }
 
-        if (this.translations.ContainsKey(optionsData.language)) TranslationManager.LoadTranslations(this.translations[optionsData.language]);
+        if (this.translations.ContainsKey(optionsData.language))
+        {
+            TranslationManager.LoadTranslations(this.translations[optionsData.language]);
+            TranslationManager.font = GetFontForLanguage(optionsData.language);
+        }
         else TranslationManager.LoadTranslations(this.translations["English"]);
 
         foreach (Translate translate in FindObjectsByType<Translate>(FindObjectsSortMode.None))
@@ -77,7 +87,6 @@ public class SaveValues : MonoBehaviour // This script is such a mess right now,
 #if !UNITY_ANDROID
 		foreach (TranslateChangeControls translate in FindObjectsByType<TranslateChangeControls>(FindObjectsSortMode.None)) translate.ChangeTranslation();
 #endif
-        //optionsData.language = id;
     }
 
     public void SetLanguage(string language)

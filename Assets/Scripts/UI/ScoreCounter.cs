@@ -11,6 +11,7 @@ public class ScoreCounter : MonoBehaviour
     private TextMeshProUGUI scoreText;
     [SerializeField]
     private TextMeshProUGUI hiScoreText;
+    [SerializeField] private GameObject touchPanel;
     void Start()
     {
         t0 = scoreText.GetComponent<Translate>();
@@ -23,5 +24,6 @@ public class ScoreCounter : MonoBehaviour
             hiScoreText.text = t1.output + ": " + SaveValues.instance.gameData.mainModeScore;
         }
         scoreText.text = t0.output + ": \n" + Manager.Instance.score;
+        touchPanel.SetActive(!SaveValues.instance.optionsData.keyboardControls);
     }
 }

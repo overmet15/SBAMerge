@@ -69,7 +69,7 @@ public class Mergeable : MonoBehaviour, IBall
 
     public void OnCollisionCreate()
     {
-        GetComponent<Rigidbody2D>().AddForce(Vector2.up * 2f, ForceMode2D.Impulse);
+        GetComponent<Rigidbody2D>().AddForce(Vector2.up * 3f, ForceMode2D.Impulse);
         transform.SetParent(Manager.Instance.ballParent);
         if (row > 4) GamejoltManager.instance.UnlockRowAchivement();
         Manager.Instance.allBalls.Add(gameObject);

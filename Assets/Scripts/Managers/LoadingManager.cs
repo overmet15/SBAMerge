@@ -29,7 +29,7 @@ public class LoadingManager : MonoBehaviour
 
 	public IEnumerator LoadScene(int sceneId = 1)
 	{
-		StartCoroutine(SoundManager.instance.SlowlyDeAddPitch());
+		StartCoroutine(MusicManager.instance.SlowlyDeAddPitch());
 		animator.SetTrigger("Go");
 		yield return new WaitForSeconds(2f);
 		SceneManager.LoadScene(sceneId);
@@ -42,12 +42,12 @@ public class LoadingManager : MonoBehaviour
             SaveValues.instance.gameData.mainModeScore = Manager.Instance.score;
 			if (Core.instance.signedIn) Scores.Add(Manager.Instance.score, Manager.Instance.score.ToString(), 886999, "");
         }
+
 		if (Manager.Instance.ballsMerged > SaveValues.instance.gameData.MostMergedBalls)
-		{
 			SaveValues.instance.gameData.MostMergedBalls = Manager.Instance.ballsMerged;
-        }
-        int ass = Mathf.RoundToInt(Manager.Instance.score / 10);
-		SaveValues.instance.gameData.coinCount += ass;
+
+        int CoinsToAdd = Mathf.RoundToInt(Manager.Instance.score / 10);
+		SaveValues.instance.gameData.coinCount += CoinsToAdd;
 		SaveValues.instance.gameData.inGameScore = 0;
         await SaveValues.instance.SaveGDataAsync();
         StartCoroutine(LoadScene());

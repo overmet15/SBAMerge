@@ -40,6 +40,7 @@ public class AchivementNotifier : MonoBehaviour
         Trophies.Get(id, trophy => {
             if (trophy != null)
             {
+                SoundManager.instance.NotifySound();
                 GetComponent<Animator>().SetTrigger("Go");
                 ColorImg(trophy.Difficulty);
                 nameText.text = trophy.Title;
@@ -62,8 +63,11 @@ public class AchivementNotifier : MonoBehaviour
             case TrophyDifficulty.Platinum: toColor.color = platinum; break;
         }
     }
-
-    public void SetNonBusy() { busy = false; }
+    // USED BY ANIMATION!!!
+    public void SetNonBusy()
+    {
+        busy = false;
+    }
     IEnumerator Countdown()
     {
         yield return new WaitForSeconds(7);

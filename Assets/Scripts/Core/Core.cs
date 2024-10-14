@@ -42,7 +42,12 @@ public class Core : MonoBehaviour
     }
     void NotifyAchivement(int id) { achivementNotifier.QueueNotify(id); }
     public void SignIn() { if (!signedIn) signInPanel.ToggleWindow(); }
-    public void OnSignIn() { autologinNotifier.OnAutologin(AutoLoginResult.Success); GamejoltManager.instance.ResetAchivementCounters(); }
+    public void OnSignIn()
+    {
+        autologinNotifier.OnAutologin(AutoLoginResult.Success);
+        GamejoltManager.instance.ResetAchivementCounters();
+        SoundManager.instance.NotifySound();
+    }
     public void SignOut() { if (signedIn) GameJoltAPI.Instance.CurrentUser.SignOut(); }
     public void UnlockAchivement(int id)
     {
@@ -71,9 +76,9 @@ public class Core : MonoBehaviour
             ToggleLoadingIndicator(false);
         }
     }
-    public void OpenDataManager() { dataManagement.ToggleWindow(); }
+    public void OpenDataManager() => dataManagement.ToggleWindow();
     public void ShowLeaderboard() { leaderboardWindow.ToggleWindow(); leaderboardWindow.SetUp(886999); }
-    public void ShowTrophies() {  trophyPanel.GetItems(); }
+    public void ShowTrophies() => trophyPanel.GetItems();
     public void ToggleLoadingIndicator(bool needed)
     {
         loadingAnimator.gameObject.SetActive(SaveValues.instance.optionsData.loadingIndicatorNeeded); 

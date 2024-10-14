@@ -53,6 +53,11 @@ PleaseFillAllFields=Please fill all fields.
 DoYouReallyWantToRestartGame=Do you really want to restart game?
 Yes=Yes
 No=No
+# Game Over stuff
+NewRecord=New Record!
+PrevScore=Previous Score
+Merged=Merged
+PrevMerged=Previously Merged
 #
 # Pack stuff starts here...
 #

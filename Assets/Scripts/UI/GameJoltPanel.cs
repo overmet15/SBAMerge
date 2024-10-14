@@ -9,7 +9,7 @@ public class GameJoltPanel : MonoBehaviour
     [SerializeField] private GameObject panelLogInButton;
     [SerializeField] private GameObject logOutButton;
     [SerializeField] private GameObject dataMangementButton;
-    [SerializeField] private GameObject trophyButton;
+    [SerializeField] private GameObject trophyButton, trophyButton2;
     private Translate t;
     private string ColorString;
     void Start()
@@ -26,6 +26,7 @@ public class GameJoltPanel : MonoBehaviour
         logOutButton.SetActive(isSignedIn);
         dataMangementButton.SetActive(isSignedIn);
         trophyButton.SetActive(isSignedIn);
+        trophyButton2.SetActive(isSignedIn);
         if (isSignedIn)
         {
             ChangeNameColor();

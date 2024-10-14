@@ -161,7 +161,7 @@ public class BuffManager : MonoBehaviour
 
 	private IEnumerator timeFreeze(float timer)
 	{
-		StartCoroutine(SoundManager.instance.SlowlyDeAddPitch(0.8f));
+		StartCoroutine(MusicManager.instance.SlowlyDeAddPitch(0.8f));
 		SaveValues.instance.gameData.slowMoBuffCount--;
 		Time.timeScale = 0.5f;
 		float elapsedTimer = timer;
@@ -172,7 +172,7 @@ public class BuffManager : MonoBehaviour
 			slowMoCooldown = elapsedTimer;
 			yield return null;
 		}
-		StartCoroutine(SoundManager.instance.SlowlyAddPitch());
+		StartCoroutine(MusicManager.instance.SlowlyAddPitch());
 		Time.timeScale = 1f;
 	}
 

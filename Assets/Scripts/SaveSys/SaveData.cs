@@ -144,6 +144,7 @@ public class OptionsData
 	public string language;
 	public bool keyboardControls;
     public bool loadingIndicatorNeeded;
+    public int FPS;
 }
 #if Development
 
