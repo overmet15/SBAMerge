@@ -21,7 +21,7 @@ public class Core : MonoBehaviour
         {
             instance = this; 
             DontDestroyOnLoad(gameObject);
-#if !UNITY_ANDROID
+#if UNITY_STANDALONE
             DiscordManager.Init();
 #endif
         }
@@ -30,7 +30,7 @@ public class Core : MonoBehaviour
 
     private void Update()
     {
-#if !UNITY_ANDROID
+#if UNITY_STANDALONE
         DiscordManager.Update();
         if (Input.GetKeyDown(KeyCode.F11)) SaveValues.instance.ToggleFullscreen();
 #endif

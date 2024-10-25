@@ -155,7 +155,7 @@ public class SkinUnlockedValue
     public bool skinUnlocked;
 }
 #endif
-public static class JsonEncryptHelper
+public static class JsonEncryptHelper // Stupid Chat GPT-ahh class
 {
     private static readonly byte[] key = Encoding.UTF8.GetBytes("totalysecuredbyteeversogetrealha");
     private static readonly byte[] iv = Encoding.UTF8.GetBytes("weirdesteverbruh");

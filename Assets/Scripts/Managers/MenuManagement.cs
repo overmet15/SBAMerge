@@ -11,12 +11,11 @@ public class MenuManagement : MonoBehaviour
     }
     private void Start()
     {
-        SettingsWindowManager.inited = true;
 #if UNITY_ANDROID
         normalUI.SetActive(true);
         fullscreenUI.SetActive(false);
 #endif
-#if !UNITY_ANDROID
+#if UNITY_STANDALONE
         normalUI.SetActive(!Screen.fullScreen);
         fullscreenUI.SetActive(Screen.fullScreen);
 #endif
@@ -24,7 +23,7 @@ public class MenuManagement : MonoBehaviour
 
     public void ToggleFullscreenUI(bool fullscreen)
     {
-#if !UNITY_ANDROID
+#if UNITY_STANDALONE
         normalUI.SetActive(!fullscreen);
         fullscreenUI.SetActive(fullscreen);
 #endif
@@ -37,7 +36,7 @@ public class MenuManagement : MonoBehaviour
 	public void ShowAchivements() { Core.instance.ShowTrophies();}
 	public void ToggleControls()
 	{
-#if !UNITY_ANDROID
+#if UNITY_STANDALONE
 		if (SaveValues.instance.optionsData.keyboardControls)
 		{
             SaveValues.instance.optionsData.keyboardControls = false;
@@ -49,9 +48,4 @@ public class MenuManagement : MonoBehaviour
 		foreach (TranslateChangeControls translate in FindObjectsByType<TranslateChangeControls>(FindObjectsSortMode.None)) translate.ChangeTranslation();
 #endif
     }
-    public void OpenDiscordLink()
-    {
-        Application.OpenURL("https://discord.com/invite/9fZdXA6c8n");
-    }
-
 }

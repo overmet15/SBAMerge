@@ -23,6 +23,6 @@ MonoBehaviour:
   encryptionKey: v-nRdVneG8F!0pBB
   logLevel: 3
   secretTrophies: 
-  autoConnect: 1
-  user: overmet15
-  token: TJw68Z
+  autoConnect: 0
+  user: 
+  token: 

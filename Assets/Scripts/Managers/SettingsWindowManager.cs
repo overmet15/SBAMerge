@@ -6,31 +6,26 @@ using UnityEngine.UI;
 
 public class SettingsWindowManager : MonoBehaviour //Move this shit to UI folder
 {
-
+    public static SettingsWindowManager Instance;
     [SerializeField] private GameObject obj;
     [SerializeField] private Slider musicSlider, sfxSlider, FPSSlider;
     [SerializeField] private TextMeshProUGUI fpsText;
     [SerializeField] private GameObject toggleFullscreenButton, keyboardToggle;
     [SerializeField] private Toggle indicatorToggle;
-
-    public static bool inited;
+    [SerializeField] private GameObject buttonL, buttonR;
+    private void Awake()
+    {
+        Instance = this;
+    }
     private void Start()
     {
         indicatorToggle.Set(SaveValues.instance.optionsData.loadingIndicatorNeeded);
         indicatorToggle.OnValueChanged.AddListener(b => ToggleIndicator(b));
-#if UNITY_ANDROID
-        SaveValues.instance.optionsData.keyboardControls = false;
-        toggleFullscreenButton.SetActive(false);
-        keyboardToggle.SetActive(false);
-#endif 
-    }
-    void OnEnable()
-    {
-        if (!inited) return;
         musicSlider.value = SaveValues.instance.optionsData.musicVolume;
         sfxSlider.value = SaveValues.instance.optionsData.sfxVolume;
         indicatorToggle.Set(SaveValues.instance.optionsData.loadingIndicatorNeeded);
         SetUpFPSSlider();
+        //OnFullscreenChange();
 #if UNITY_ANDROID
         SaveValues.instance.optionsData.keyboardControls = false;
         toggleFullscreenButton.SetActive(false);
@@ -41,7 +36,7 @@ public class SettingsWindowManager : MonoBehaviour //Move this shit to UI folder
     {
         obj.SetActive(MenuManagement.instance.windowEnabled);
         SaveValues.instance.optionsData.musicVolume = musicSlider.value;
-        SaveValues.instance.optionsData.sfxVolume = sfxSlider.value; 
+        SaveValues.instance.optionsData.sfxVolume = sfxSlider.value;
         FPSSLiderToSettings();
     }
     public void OnSettingsButton()
@@ -79,5 +74,13 @@ public class SettingsWindowManager : MonoBehaviour //Move this shit to UI folder
         };
 
         fpsText.text = $"FPS: {SaveValues.instance.optionsData.FPS}";
+    }
+
+    public void OnFullscreenChange()
+    {
+#if UNITY_STANDALONE
+        buttonL.SetActive(!Screen.fullScreen);
+        buttonR.SetActive(Screen.fullScreen);
+#endif
     }
 }

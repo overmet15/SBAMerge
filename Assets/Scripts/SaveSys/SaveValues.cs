@@ -15,7 +15,19 @@ public class SaveValues : MonoBehaviour // This script is such a mess right now,
     [SerializeField] private TMPro.TMP_FontAsset[] fontAssetsPreload;
     public Dictionary<string, string> translations = new();
 
-    private Vector2Int rememberedResolution;
+    public static Vector2Int rememberedResolution
+    {
+        get 
+        { 
+            return new Vector2Int
+            (PlayerPrefs.GetInt("RememberedScreenResolutionX", 600), PlayerPrefs.GetInt("RememberedScreenResolutionY", 800));
+        }
+        private set 
+        { 
+            PlayerPrefs.SetInt("RememberedScreenResolutionX", value.x);
+            PlayerPrefs.SetInt("RememberedScreenResolutionY", value.y);
+        }
+    }
     private void Awake()
 	{
 		if (instance == null)
@@ -30,7 +42,6 @@ public class SaveValues : MonoBehaviour // This script is such a mess right now,
 
 	private void Start()
     {
-        rememberedResolution = new Vector2Int(600, 800);
         StartCoroutine(SaveEverySec());
     }
 
@@ -84,7 +95,7 @@ public class SaveValues : MonoBehaviour // This script is such a mess right now,
         {
             translate.ChangeTranslation();
         }
-#if !UNITY_ANDROID
+#if UNITY_STANDALONE
 		foreach (TranslateChangeControls translate in FindObjectsByType<TranslateChangeControls>(FindObjectsSortMode.None)) translate.ChangeTranslation();
 #endif
     }
@@ -111,18 +122,20 @@ public class SaveValues : MonoBehaviour // This script is such a mess right now,
     }
     public void ToggleFullscreen()
     {
-#if !UNITY_ANDROID
+#if UNITY_STANDALONE
         if (!Screen.fullScreen)
 		{
 			rememberedResolution = new Vector2Int(Screen.width, Screen.height);
-			Screen.SetResolution(1920, 1080, true);
+            Screen.SetResolution(Display.main.systemWidth, Display.main.systemHeight, true);
             MenuManagement.instance.ToggleFullscreenUI(true);
 		}
 		else 
         {
-        Screen.SetResolution(rememberedResolution.x, rememberedResolution.y, false);
-        MenuManagement.instance.ToggleFullscreenUI(false);
+            Screen.SetResolution(rememberedResolution.x, rememberedResolution.y, false);
+            MenuManagement.instance.ToggleFullscreenUI(false);
         }
+        if (SettingsWindowManager.Instance != null)
+            SettingsWindowManager.Instance.OnFullscreenChange();
 #endif
     }
 

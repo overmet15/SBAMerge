@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[ExecuteAlways]
 public class CameraAspectAdjust : MonoBehaviour
 {
     private float targetHeight;
