@@ -1,8 +1,9 @@
 fileFormatVersion: 2
-guid: c16c5947dbfafc947af2a8409e317988
-timeCreated: 1509553880
+guid: 2c8813e0171ee9f4d83d33a49a8cc888
+timeCreated: 1565352183
 licenseType: Store
-TextScriptImporter:
+AssemblyDefinitionImporter:
+  externalObjects: {}
   userData: 
   assetBundleName: 
   assetBundleVariant: 
@@ -11,5 +12,5 @@ AssetOrigin:
   productId: 103938
   packageName: Game Jolt API
   packageVersion: 2.5.8
-  assetPath: Assets/Plugins/GameJolt/readme.txt
+  assetPath: Assets/Plugins/Editor/GameJolt/GameJoltEditor.asmdef
   uploadId: 536125

@@ -6,3 +6,10 @@ NativeFormatImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 103938
+  packageName: Game Jolt API
+  packageVersion: 
+  assetPath: Assets/Plugins/GameJolt/GJAPISettings.asset
+  uploadId: 0

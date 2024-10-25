@@ -151,3 +151,10 @@ TextureImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 103938
+  packageName: Game Jolt API
+  packageVersion: 
+  assetPath: Assets/Plugins/GameJolt/Images/GJAPILogo.png
+  uploadId: 0

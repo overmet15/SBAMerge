@@ -58,10 +58,3 @@ NewRecord=New Record!
 PrevScore=Previous Score
 Merged=Merged
 PrevMerged=Previously Merged
-#
-# Pack stuff starts here...
-#
-TestName=Test Name
-TestDesc=Test Desc
-TestPackName=Test Pack Name
-TestPackDesc=Test Pack Desc

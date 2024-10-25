@@ -54,3 +54,8 @@ PleaseFillAllFields=Пожалуйста заполните все поля.
 DoYouReallyWantToRestartGame=Вы действительно хотите перезапустить игру?
 Yes=Да
 No=Нет
+# Game Over stuff
+NewRecord=Новый рекорд!
+PrevScore=Предыдущий счет
+Merged=Объединено
+PrevMerged=Ранее объединено

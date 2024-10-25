@@ -22,6 +22,8 @@ public class GameOverManager : MonoBehaviour
 
         GMText += $"{TranslationManager.Translate("Merged")}: {Manager.Instance.ballsMerged}\n";
         GMText += $"{TranslationManager.Translate("PrevMerged")}: {SaveValues.instance.gameData.MostMergedBalls}\n";
+
+        text.font = TranslationManager.font;
         text.text = GMText;
         Manager.Instance.canPlay = false;
         gmPanel.SetActive(true);

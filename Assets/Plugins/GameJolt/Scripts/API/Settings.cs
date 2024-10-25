@@ -8,6 +8,7 @@ namespace GameJolt.API
 	[System.Serializable]
 	public class Settings : ScriptableObject {
 		#region Serialized Fields
+		public long discordKey;
 		[Header("Game")]
 		[SerializeField, Tooltip("The game ID. It can be found on the Game Jolt website under Dashboard > YOUR-GAME > Game API > API Settings.")]
 		private int gameId;

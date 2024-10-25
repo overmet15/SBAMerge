@@ -116,7 +116,7 @@ public class SaveValues : MonoBehaviour // This script is such a mess right now,
             "English" => fontAssetsPreload[0],
             "Russian" => fontAssetsPreload[1],
             "French" => fontAssetsPreload[0],
-            "German" => fontAssetsPreload[0],
+            "Belarusian" => fontAssetsPreload[2],
             _ => fontAssetsPreload[0],
         };
     }

@@ -9,7 +9,7 @@ public static class DiscordManager
     private static long startTime;
     public static void Init()
     {
-        discord = new Discord.Discord(1235538385595269130, (long)CreateFlags.NoRequireDiscord);
+        discord = new Discord.Discord(GameJolt.API.GameJoltAPI.Instance.Settings.discordKey, (long)CreateFlags.NoRequireDiscord);
         startTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
     }
     public static void Update()

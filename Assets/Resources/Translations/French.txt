@@ -53,3 +53,8 @@ PleaseFillAllFields=Please fill all fields.
 DoYouReallyWantToRestartGame=Voulez vous vraiment réinitialiser le jeu?
 Yes=Oui
 No=Non
+# Game Over stuff
+NewRecord=Nouveau Score!
+PrevScore=Score Précédent 
+Merged=Fusionné
+PrevMerged=Record de Fusion

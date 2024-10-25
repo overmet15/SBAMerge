@@ -10,3 +10,10 @@ MonoImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 103938
+  packageName: Game Jolt API
+  packageVersion: 
+  assetPath: Assets/Plugins/GameJolt/Scripts/API/Objects/Trophy.cs
+  uploadId: 0
